@@ -1,0 +1,23 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+
+@layer base {
+    @font-face {
+        font-family: 'Vazir';
+        font-style: normal;
+        font-weight: normal;
+        font-display: swap;
+        src: url(../public/fonts/fontawesome-webfont.eot);
+        src: url(../public/fonts/Vazir.eot?#iefix) format('embedded-opentype'),
+            url(../public/fonts/Vazir.woff2) format('woff2'),
+            url(../public/fonts/Vazir.woff) format('woff'),
+            url(../public/fonts/Vazir.ttf) format('truetype');
+    }
+  }

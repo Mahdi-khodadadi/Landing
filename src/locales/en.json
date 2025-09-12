@@ -1,0 +1,25 @@
+{
+    "title1": "personal",
+    "title2": "cloud ☁️",
+    "description": "Upload and access your files easily and securely.",
+    "start": "Get Started",
+    "language": "Language",
+    "about": "About",
+    "contact": "Contact",
+    "login": {
+      "title_login": "Login to Account",
+      "title_signup": "Create an Account",
+      "username": "Username",
+      "username_or_email": "Email",
+      "password": "Password",
+      "btn_login": "Login",
+      "btn_signup": "Sign Up",
+      "btn_google_login": "Login with Google",
+      "btn_google_signup": "Sign Up with Google",
+      "no_account": "Don’t have an account? ",
+      "have_account": "Already have an account? ",
+      "signup_link": "Sign Up",
+      "login_link": "Login"
+    }
+  }
+  

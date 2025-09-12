@@ -1,0 +1,31 @@
+{
+  "title1": "فضای",
+  "title2": "ابری ☁️",
+  "description": "فایل‌هات رو راحت و امن آپلود و دسترسی پیدا کن.",
+  "start": "شروع کنید",
+  "language": "زبان",
+  "about": "درباره ما",
+  "contact": "تماس باما",
+  "login": {
+    "title_login": "ورود به حساب",
+    "title_signup": "ایجاد حساب کاربری",
+    "username": "نام کاربری",
+    "username_or_email": "ایمیل",
+    "password": "رمز عبور",
+    "btn_login": "ورود",
+    "btn_signup": "ثبت نام",
+    "btn_google_login": "ورود با گوگل",
+    "btn_google_signup": "ثبت نام با گوگل",
+    "no_account": "حساب نداری؟ ",
+    "have_account": "قبلاً حساب داری؟ ",
+    "signup_link": "ثبت نام کن",
+    "login_link": "وارد شو"
+  }
+}
+  
+
+
+
+
+
+
