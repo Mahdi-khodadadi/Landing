@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Landing/static/css/main.628036f4.css",
+    "main.js": "/Landing/static/js/main.edb33b71.js",
+    "static/media/picimg.png": "/Landing/static/media/picimg.a8a5e9d8b7d52890b42f.png",
+    "static/media/vidimg.png": "/Landing/static/media/vidimg.55a2291be228adcbea69.png",
+    "static/media/fileimg.png": "/Landing/static/media/fileimg.68ea388675441ec61b4c.png",
+    "static/media/laptop.png": "/Landing/static/media/laptop.72499773633a80efffac.png",
+    "static/media/abr-icon.png": "/Landing/static/media/abr-icon.13cb9dfa9c3a21f830fe.png",
+    "static/media/fontawesome-webfont.eot": "/Landing/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
+    "static/media/Vazir.eot": "/Landing/static/media/Vazir.289335e940ad9b243637.eot",
+    "static/media/Vazir.ttf": "/Landing/static/media/Vazir.0bd162dfd1326bee1f01.ttf",
+    "static/media/Vazir.woff": "/Landing/static/media/Vazir.21b45d02bc597b7d274d.woff",
+    "static/media/Vazir.woff2": "/Landing/static/media/Vazir.a87368473028d4f729df.woff2",
+    "index.html": "/Landing/index.html",
+    "main.628036f4.css.map": "/Landing/static/css/main.628036f4.css.map",
+    "main.edb33b71.js.map": "/Landing/static/js/main.edb33b71.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.628036f4.css",
+    "static/js/main.edb33b71.js"
+  ]
+}
