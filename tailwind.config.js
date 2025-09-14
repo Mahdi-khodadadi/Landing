@@ -7,7 +7,8 @@ module.exports = {
     fontFamily: {
       "v" : "Vazir"
     },
-    extend: {},
+    extend: {
+    },
   },
   plugins: [
     function ({ addUtilities }) {

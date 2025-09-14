@@ -7,7 +7,7 @@ import fileimg from "../assets/fileimg.png";
 import { toast } from "react-toastify";
 import { uploadFile, listFiles, createSignedUrl, deleteFile, getCurrentUser, signOut,} from "../services/supabaseService";
 import { useTranslation } from "react-i18next";
-
+import bg from "../assets/bg-img.mp4"
 
 
 const FilePreview = ({ file }) => {
@@ -177,11 +177,11 @@ const Dashboard = () => {
 
   return (
     <div
-      className={`bg-black text-white min-h-screen w-full flex flex-col items-center py-8 px-4 sm:px-6 md:px-10 lg:px-16 ${
-        i18n.language === "fa" ? "font-v" : "font-sans"
-      }`}
-    >
-      {/* هدر */}
+      className={`text-white min-h-screen w-full flex flex-col items-center py-8 px-4 sm:px-6 md:px-10 lg:px-16 ${i18n.language === "fa" ? "font-v" : "font-sans"}`}>
+      <video autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover min-h-screen -z-10">
+        <source src={bg} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       <header className="flex flex-col sm:flex-row items-center justify-between w-full max-w-6xl mb-10 gap-4">
         {/* سمت چپ */}
         <div className="flex items-center gap-3">
@@ -254,13 +254,10 @@ const Dashboard = () => {
       {sections.map(
         (section, idx) =>
           section.open && (
-            <section
-              key={idx}
-              className="bg-gray-900 rounded-2xl p-5 sm:p-8 w-full max-w-6xl flex flex-col gap-6 mb-8 shadow-lg"
-            >
+            <section key={idx} className="bg-gray-900/50 backdrop-blur-md border border-gray-700/30 rounded-2xl p-5 sm:p-8 w-full max-w-6xl flex flex-col gap-6 mb-8 shadow-lg">
               {/* آپلود فایل */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <div className="w-full sm:w-28 h-20 bg-gray-800 flex items-center justify-center rounded-xl">
+                <div className="w-full sm:w-28 h-20 bg-gray-800/50 flex items-center justify-center rounded-xl backdrop-blur-sm">
                   <img
                     src={section.icon}
                     alt="upload preview"
@@ -268,7 +265,7 @@ const Dashboard = () => {
                   />
                 </div>
                 <input
-                  className="w-full sm:flex-1 border border-gray-700 rounded-lg bg-gray-800 text-gray-200 px-3 py-2 text-sm"
+                  className="w-full sm:flex-1 border border-gray-700 rounded-lg bg-gray-800/50 text-gray-200 px-3 py-2 text-sm backdrop-blur-sm"
                   type="file"
                   onChange={(e) =>
                     setSelectedFiles((prev) => ({
@@ -282,12 +279,10 @@ const Dashboard = () => {
                   disabled={!selectedFiles[section.key] || uploading[section.key]}
                   className="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {uploading[section.key]
-                    ? `${t("dashboard.upl")}`
-                    : section.label}
+                  {uploading[section.key] ? `${t("dashboard.upl")}` : section.label}
                 </button>
               </div>
-  
+
               {/* لیست فایل‌ها */}
               {loadingFiles ? (
                 <p className="text-gray-400">{t("dashboard.loading")}</p>
@@ -296,7 +291,7 @@ const Dashboard = () => {
                   {section.files.map((file) => (
                     <div
                       key={file.filename}
-                      className="bg-gray-800 rounded-xl p-4 flex flex-col gap-3 items-center shadow hover:shadow-lg transition"
+                      className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 flex flex-col gap-3 items-center shadow hover:shadow-lg transition"
                     >
                       <FilePreview file={file} />
                       <div className="flex flex-col sm:flex-row gap-2 w-full">
@@ -318,11 +313,11 @@ const Dashboard = () => {
                 </div>
               )}
             </section>
+
           )
       )}
     </div>
   );
-  
 };
 
 export default Dashboard;
