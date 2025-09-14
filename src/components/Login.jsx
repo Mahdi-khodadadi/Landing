@@ -57,18 +57,18 @@ const Login = () => {
       if (isSignup) {
         const { error } = await signUp(email.toLowerCase(), password, { username });
         if (error) throw error;
-        toast.success("ثبت‌نام با موفقیت انجام شد ✅");
+        toast.success(`${t("toast.Registrationwassuccessful")}`);
         navigate("/Landing/dashboard");
       } else {
         const { data, error } = await signIn(email.toLowerCase(), password);
         if (error) throw error;
         const user = data.user;
         localStorage.setItem("user", JSON.stringify({ id: user.id, email: user.email }));
-        toast.success("خوش آمدید 👋");
+        toast.success(`${t("toast.Welcome")}`);
         navigate("/Landing/dashboard");
       }
     } catch (err) {
-      toast.error(err.response?.data?.error || "خطا در ورود ❌");
+      toast.error(err.response?.data?.error || `${t("toast.Errorinlogin")}`);
       console.error(err);
     }
   };

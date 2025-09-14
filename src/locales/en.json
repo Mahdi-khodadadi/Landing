@@ -20,6 +20,32 @@
       "have_account": "Already have an account? ",
       "signup_link": "Sign Up",
       "login_link": "Login"
+    },
+    "dashboard": {
+      "Logout" : "Logout",
+      "pictures" : "Pictures",
+      "videos" : "Videos",
+      "musics" : "Musics",
+      "files" : "Files",
+      "upPic" : "Upload Picture",
+      "upVid" : "Upload Video",
+      "upMis" : "Upload Music",
+      "upFil" : "Upload File",
+      "upl" : "Uploading..." ,
+      "loading" : "Loading files...",
+      "Download" : "Download",
+      "Delete" : "Delete"
+    },
+    "toast" : {
+      "Errorloadingfiles" : "Error loading files❌",
+      "Fileuploadedsuccessfully" : "File uploaded successfully✅",
+      "Erroruploadingfile" : "Error uploading file❌",
+      "Thefilewasdeleted" : "The file was deleted🫧",
+      "Errordeletingfile" : "Error deleting file❌",
+      "Downloadfailedtryagain" : "Download failed, try again💱",
+      "Registrationwassuccessful" : "Registration was successful ✅",
+      "Welcome" : "Welcome 👋",
+      "Errorinlogin": "Error in login ❌"
     }
   }
   
