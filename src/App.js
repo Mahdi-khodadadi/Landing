@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { ToastContainer } from 'react-toastify';
 import axios from 'axios';
+import AuthCallback from './components/AuthCallback';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/Landing" element={<Landing />} />
         <Route path="/Landing/login" element={<Login />} />
         <Route path="/Landing/dashboard" element={<Dashboard />} />
+        <Route path="/Landing/auth/v1/callback" element={<AuthCallback />} />
       </Routes>
 
       <ToastContainer position="top-right" />
