@@ -46,6 +46,7 @@ const Dashboard = () => {
   const [files, setFiles] = useState([]);
   const [loadingFiles, setLoadingFiles] = useState(true);
   const { t, i18n } = useTranslation();
+  const [open, setOpen] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState({
     picture: null,
     video: null,
@@ -162,58 +163,166 @@ const Dashboard = () => {
     navigate("/Landing/login");
   };
 
-  return (
-    <div className={`bg-black text-white min-h-screen w-full flex flex-col items-center py-10 px-6 md:px-12 ${i18n.language === "fa" ? "font-v" : "font-sans"}`}>
-      <div className="flex items-center justify-between w-full max-w-6xl mb-8">
-        <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold">My Cloud</h1>
-          <img src={cloudImg} alt="Cloud" className="w-12" />
-        </div>
-        <div className="flex items-center gap-4">
-          <span>{user?.email}</span>
-          <button onClick={handleLogout} className="bg-red-600 px-3 py-1 rounded">{t("dashboard.Logout")}</button>
-        </div>
-      </div>
 
-      <div className="flex gap-4 mb-6">
-        {sections.map(s => (
-          <button key={s.key} onClick={() => toggleSection(s.key)} className={`${s.open ? "text-white border-b-2" : "text-gray-400"}`}>
+  const languages = [
+    { code: "fa", label: "فارسی" },
+    { code: "en", label: "English" },
+  ];
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    setOpen(false);
+  };
+
+
+  return (
+    <div
+      className={`bg-black text-white min-h-screen w-full flex flex-col items-center py-8 px-4 sm:px-6 md:px-10 lg:px-16 ${
+        i18n.language === "fa" ? "font-v" : "font-sans"
+      }`}
+    >
+      {/* هدر */}
+      <header className="flex flex-col sm:flex-row items-center justify-between w-full max-w-6xl mb-10 gap-4">
+        {/* سمت چپ */}
+        <div className="flex items-center gap-3">
+          <img
+            src={cloudImg}
+            alt="Cloud"
+            className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
+          />
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            My Cloud
+          </h1>
+        </div>
+  
+        {/* سمت راست */}
+        <div className="flex items-center gap-4">
+          <span className="text-sm sm:text-base break-all">{user?.email}</span>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm sm:text-base transition"
+          >
+            {t("dashboard.Logout")}
+          </button>
+          <div className="relative">
+            <button
+              onClick={() => setOpen(!open)}
+              className="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-lg text-sm"
+            >
+              {t("language")}
+            </button>
+            {open && (
+              <div className="origin-top-right absolute right-0 mt-2 w-32 rounded-md shadow-lg bg-gray-900 ring-1 ring-black ring-opacity-5 z-10">
+                <div className="py-1">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        changeLanguage(lang.code);
+                        setOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-100 hover:bg-gray-800 transition"
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+  
+      {/* تب‌ها */}
+      <nav className="flex flex-wrap gap-3 mb-8 w-full max-w-6xl justify-center sm:justify-start">
+        {sections.map((s) => (
+          <button
+            key={s.key}
+            onClick={() => toggleSection(s.key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
+              s.open
+                ? "bg-blue-600 text-white shadow"
+                : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+            }`}
+          >
             {s.key}
           </button>
         ))}
-      </div>
-
-      {sections.map((section, idx) => section.open && (
-        <div key={idx} className="bg-gray-900 rounded-xl p-6 w-full max-w-6xl flex flex-col gap-6 mb-6">
-          <div className="flex items-center gap-4">
-            <div className="w-24 h-16 bg-gray-700 flex items-center justify-center rounded-lg">
-              <img src={section.icon} alt="upload preview" className="opacity-70" />
-            </div>
-            <input type="file" onChange={(e) => setSelectedFiles(prev => ({ ...prev, [section.key]: e.target.files[0] }))} />
-            <button onClick={() => handleUpload(section.key)} disabled={!selectedFiles[section.key] || uploading[section.key]} className="bg-gray-700 px-6 py-2 rounded-lg">
-              {uploading[section.key] ? `${t("dashboard.upl")}` : section.label}
-            </button>
-          </div>
-
-          <hr className="border-gray-700" />
-
-          {loadingFiles ? <p>{t("dashboard.loading")}</p> :
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {section.files.map(file => (
-                <div key={file.filename} className="flex flex-col gap-2 items-center">
-                  <FilePreview file={file} />
-                  <div className="flex gap-2">
-                    <button onClick={() => downloadFile(file)} className="bg-blue-600 px-2 py-1 rounded text-sm">{t("dashboard.Download")}</button>
-                    <button onClick={() => handleDelete(file)} className="bg-red-600 px-2 py-1 rounded text-sm">{t("dashboard.Delete")}</button>
-                  </div>
+      </nav>
+  
+      {/* بخش‌های فایل */}
+      {sections.map(
+        (section, idx) =>
+          section.open && (
+            <section
+              key={idx}
+              className="bg-gray-900 rounded-2xl p-5 sm:p-8 w-full max-w-6xl flex flex-col gap-6 mb-8 shadow-lg"
+            >
+              {/* آپلود فایل */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="w-full sm:w-28 h-20 bg-gray-800 flex items-center justify-center rounded-xl">
+                  <img
+                    src={section.icon}
+                    alt="upload preview"
+                    className="w-12 h-12 object-contain opacity-80"
+                  />
                 </div>
-              ))}
-            </div>
-          }
-        </div>
-      ))}
+                <input
+                  className="w-full sm:flex-1 border border-gray-700 rounded-lg bg-gray-800 text-gray-200 px-3 py-2 text-sm"
+                  type="file"
+                  onChange={(e) =>
+                    setSelectedFiles((prev) => ({
+                      ...prev,
+                      [section.key]: e.target.files[0],
+                    }))
+                  }
+                />
+                <button
+                  onClick={() => handleUpload(section.key)}
+                  disabled={!selectedFiles[section.key] || uploading[section.key]}
+                  className="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {uploading[section.key]
+                    ? `${t("dashboard.upl")}`
+                    : section.label}
+                </button>
+              </div>
+  
+              {/* لیست فایل‌ها */}
+              {loadingFiles ? (
+                <p className="text-gray-400">{t("dashboard.loading")}</p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  {section.files.map((file) => (
+                    <div
+                      key={file.filename}
+                      className="bg-gray-800 rounded-xl p-4 flex flex-col gap-3 items-center shadow hover:shadow-lg transition"
+                    >
+                      <FilePreview file={file} />
+                      <div className="flex flex-col sm:flex-row gap-2 w-full">
+                        <button
+                          onClick={() => downloadFile(file)}
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg text-xs font-medium transition"
+                        >
+                          {t("dashboard.Download")}
+                        </button>
+                        <button
+                          onClick={() => handleDelete(file)}
+                          className="flex-1 bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg text-xs font-medium transition"
+                        >
+                          {t("dashboard.Delete")}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )
+      )}
     </div>
   );
+  
 };
 
 export default Dashboard;
