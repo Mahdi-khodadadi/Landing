@@ -34,7 +34,8 @@
       "upl" : "Uploading..." ,
       "loading" : "Loading files...",
       "Download" : "Download",
-      "Delete" : "Delete"
+      "Delete" : "Delete",
+      "choosefile" : "ChooseFile..."
     },
     "toast" : {
       "Errorloadingfiles" : "Error loading files❌",

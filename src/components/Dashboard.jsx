@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cloudImg from "../assets/abr-icon.png";
-import picImg from "../assets/picimg.png";
-import vidImg from "../assets/vidimg.png";
-import fileimg from "../assets/fileimg.png";
+import picImg from "../assets/picimg.gif";
+import vidImg from "../assets/vidimg.gif";
+import fileimg from "../assets/fileimg.gif";
+import musimg from "../assets/musimg.gif";
+import dn from "../assets/daynight.gif";
 import { toast } from "react-toastify";
 import { uploadFile, listFiles, createSignedUrl, deleteFile, getCurrentUser, signOut,} from "../services/supabaseService";
 import { useTranslation } from "react-i18next";
 import bg from "../assets/bg-img.mp4"
+import dayGif from "../assets/daynight1.png";
+import dayToNightGif from "../assets/day-night.gif";
+import nightGif from "../assets/daynight-night.gif";
+import nightToDayGif from "../assets/night-day.gif";
+
 
 
 const FilePreview = ({ file }) => {
@@ -35,7 +42,7 @@ const FilePreview = ({ file }) => {
   if (file.filename.match(/\.(mp4|mov|avi)$/i))
     return <video controls src={signedUrl} className="w-32 h-24 object-cover rounded" />;
   if (file.filename.match(/\.(mp3|wav|ogg|m4a)$/i))
-    return <audio controls src={signedUrl} className="w-64" />;
+    return <audio controls src={signedUrl} className="w-64 rounded-lg p-2" />;
 
   return <img src={fileimg} alt="file icon" className="w-16 h-16 object-contain" />;
 };
@@ -47,6 +54,9 @@ const Dashboard = () => {
   const [loadingFiles, setLoadingFiles] = useState(true);
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [dark, setDark] = useState(false)
+  const [gif, setGif] = useState(dayGif);
   const [selectedFiles, setSelectedFiles] = useState({
     picture: null,
     video: null,
@@ -146,7 +156,7 @@ const Dashboard = () => {
   const sections = [
     { key: `${t("dashboard.pictures")}`, open: sectionsOpen.picture, files: imageFiles, icon: picImg, label: `${t("dashboard.upPic")}` },
     { key: `${t("dashboard.videos")}`, open: sectionsOpen.video, files: videoFiles, icon: vidImg, label: `${t("dashboard.upVid")}` },
-    { key: `${t("dashboard.musics")}`, open: sectionsOpen.music, files: musicFiles, icon: fileimg, label: `${t("dashboard.upMis")}` },
+    { key: `${t("dashboard.musics")}`, open: sectionsOpen.music, files: musicFiles, icon: musimg, label: `${t("dashboard.upMis")}` },
     { key: `${t("dashboard.files")}`, open: sectionsOpen.file, files: otherFiles, icon: fileimg, label: `${t("dashboard.upFil")}` },
   ];
 
@@ -174,40 +184,61 @@ const Dashboard = () => {
     setOpen(false);
   };
 
+  const toggleDark = () => {
+    if (dark) {
+      setGif(nightToDayGif);
+      setTimeout(() => {
+        setDark(false);
+        setGif(dayGif);
+      }, 500);
+    } else {
+      setGif(dayToNightGif);
+      setTimeout(() => {
+        setDark(true);
+        setGif(nightGif);
+      }, 500);
+    }
+  };
+
+  useEffect(() => {
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [dark]);
+
 
   return (
-    <div
-      className={`text-white min-h-screen w-full flex flex-col items-center py-8 px-4 sm:px-6 md:px-10 lg:px-16 ${i18n.language === "fa" ? "font-v" : "font-sans"}`}>
-      <video autoPlay loop muted playsInline className="absolute top-0 left-0 w-full h-full object-cover min-h-screen -z-10">
+    <div className={`min-h-screen w-full flex flex-col items-center py-8 px-4 sm:px-6 md:px-10 lg:px-16 ${i18n.language === "fa" ? "font-v" : "font-sans"} ${!videoLoaded ? "bg-black" : "text-white"}`}>
+      <video onLoadedData={() => setVideoLoaded(true)} autoPlay loop muted playsInline className="fixed top-0 left-0 w-full h-full object-cover -z-10">
         <source src={bg} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <header className="flex flex-col sm:flex-row items-center justify-between w-full max-w-6xl mb-10 gap-4">
+      <header className="flex flex-col sm:flex-row items-center justify-between w-full max-w-6xl mb-10 gap-2 sm:gap-4 flex-wrap">
         {/* سمت چپ */}
-        <div className="flex items-center gap-3">
-          <img
-            src={cloudImg}
-            alt="Cloud"
-            className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
-          />
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            My Cloud
-          </h1>
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <img src={cloudImg} alt="Cloud" className="w-8 h-8 sm:w-12 sm:h-12 object-contain" />
+          <h1 className="text-xl sm:text-3xl font-extrabold tracking-tight">My Cloud</h1>
         </div>
-  
+
         {/* سمت راست */}
-        <div className="flex items-center gap-4">
-          <span className="text-sm sm:text-base break-all">{user?.email}</span>
+        <div className="flex items-center gap-1 sm:gap-4 flex-wrap justify-end w-full sm:w-auto">
+          <span className="text-xs sm:text-base break-all">{user?.email}</span>
+
+          {/* Logout */}
           <button
             onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm sm:text-base transition"
+            className="w-20 h-9 sm:w-28 sm:h-11 flex items-center justify-center bg-red-600 hover:bg-red-700 rounded-lg text-xs sm:text-sm transition"
           >
             {t("dashboard.Logout")}
           </button>
+
+          {/* Language */}
           <div className="relative">
             <button
               onClick={() => setOpen(!open)}
-              className="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-lg text-sm"
+              className="w-20 h-9 sm:w-28 sm:h-11 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-xs sm:text-sm transition"
             >
               {t("language")}
             </button>
@@ -217,10 +248,7 @@ const Dashboard = () => {
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
-                      onClick={() => {
-                        changeLanguage(lang.code);
-                        setOpen(false);
-                      }}
+                      onClick={() => { changeLanguage(lang.code); setOpen(false); }}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-100 hover:bg-gray-800 transition"
                     >
                       {lang.label}
@@ -230,8 +258,19 @@ const Dashboard = () => {
               </div>
             )}
           </div>
+          <button
+            onClick={toggleDark}
+            className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg transition p-1 sm:p-2 min-w-[64px] sm:min-w-[72px] h-9 sm:h-11"
+          >
+            <img
+              src={gif}
+              alt="theme toggle"
+              className="w-7 h-7 sm:w-10 sm:h-10 object-contain"
+            />
+          </button>
         </div>
       </header>
+
   
       {/* تب‌ها */}
       <nav className="flex flex-wrap gap-3 mb-8 w-full max-w-6xl justify-center sm:justify-start">
@@ -264,16 +303,24 @@ const Dashboard = () => {
                     className="w-12 h-12 object-contain opacity-80"
                   />
                 </div>
-                <input
-                  className="w-full sm:flex-1 border border-gray-700 rounded-lg bg-gray-800/50 text-gray-200 px-3 py-2 text-sm backdrop-blur-sm"
-                  type="file"
-                  onChange={(e) =>
-                    setSelectedFiles((prev) => ({
-                      ...prev,
-                      [section.key]: e.target.files[0],
-                    }))
-                  }
-                />
+                <div className="w-full sm:flex-1">
+                  <label className="flex items-center justify-between border border-gray-700 rounded-lg bg-gray-800/50 text-gray-200 px-3 py-2 text-sm backdrop-blur-sm cursor-pointer hover:bg-gray-700/50">
+                    {selectedFiles[section.key]
+                      ? selectedFiles[section.key].name
+                      : t("dashboard.choosefile")}
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={(e) =>
+                        setSelectedFiles((prev) => ({
+                          ...prev,
+                          [section.key]: e.target.files[0],
+                        }))
+                      }
+                    />
+                  </label>
+                </div>
+
                 <button
                   onClick={() => handleUpload(section.key)}
                   disabled={!selectedFiles[section.key] || uploading[section.key]}
