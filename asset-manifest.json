@@ -1,24 +1,28 @@
 {
   "files": {
-    "main.css": "/Landing/static/css/main.2a743872.css",
-    "main.js": "/Landing/static/js/main.6bc29b5a.js",
+    "main.css": "/Landing/static/css/main.f4ceeb19.css",
+    "main.js": "/Landing/static/js/main.ef8652a7.js",
     "static/media/bg-img.mp4": "/Landing/static/media/bg-img.716f21596ab0e1dec8cb.mp4",
-    "static/media/picimg.png": "/Landing/static/media/picimg.a8a5e9d8b7d52890b42f.png",
-    "static/media/vidimg.png": "/Landing/static/media/vidimg.55a2291be228adcbea69.png",
-    "static/media/fileimg.png": "/Landing/static/media/fileimg.68ea388675441ec61b4c.png",
     "static/media/laptop.png": "/Landing/static/media/laptop.72499773633a80efffac.png",
+    "static/media/daynight.gif": "/Landing/static/media/daynight.81eaa526b2909d17f2e0.gif",
     "static/media/abr-icon.png": "/Landing/static/media/abr-icon.13cb9dfa9c3a21f830fe.png",
     "static/media/fontawesome-webfont.eot": "/Landing/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
+    "static/media/musimg.gif": "/Landing/static/media/musimg.e53b0a624aa94cdc46a8.gif",
+    "static/media/picimg.gif": "/Landing/static/media/picimg.a65c552c5182fa915ac0.gif",
     "static/media/Vazir.eot": "/Landing/static/media/Vazir.289335e940ad9b243637.eot",
     "static/media/Vazir.ttf": "/Landing/static/media/Vazir.0bd162dfd1326bee1f01.ttf",
+    "static/media/vidimg.gif": "/Landing/static/media/vidimg.fe21c116ec278ae15efb.gif",
+    "static/media/fileimg.gif": "/Landing/static/media/fileimg.f9219963da839853b352.gif",
+    "static/media/day-night.gif": "/Landing/static/media/day-night.2266c63500b95d5d3459.gif",
+    "static/media/night-day.gif": "/Landing/static/media/night-day.3b39bd05564ac292b045.gif",
     "static/media/Vazir.woff": "/Landing/static/media/Vazir.21b45d02bc597b7d274d.woff",
     "static/media/Vazir.woff2": "/Landing/static/media/Vazir.a87368473028d4f729df.woff2",
     "index.html": "/Landing/index.html",
-    "main.2a743872.css.map": "/Landing/static/css/main.2a743872.css.map",
-    "main.6bc29b5a.js.map": "/Landing/static/js/main.6bc29b5a.js.map"
+    "main.f4ceeb19.css.map": "/Landing/static/css/main.f4ceeb19.css.map",
+    "main.ef8652a7.js.map": "/Landing/static/js/main.ef8652a7.js.map"
   },
   "entrypoints": [
-    "static/css/main.2a743872.css",
-    "static/js/main.6bc29b5a.js"
+    "static/css/main.f4ceeb19.css",
+    "static/js/main.ef8652a7.js"
   ]
 }
