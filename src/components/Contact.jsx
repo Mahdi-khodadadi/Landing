@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import img from "../assets/Screenshot 2025-09-16 121338.png";
 import { Link } from "react-router-dom";
+import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
+
+
 
 const CopyableText = ({ text }) => {
   const { t } = useTranslation();
@@ -31,10 +35,34 @@ const CopyableText = ({ text }) => {
   );
 };
 
+
+
 const Contact = () => {
   const { t } = useTranslation();
+  const form = useRef();
 
-
+  const sendEmail = (e) => {
+    e.preventDefault();
+  
+    emailjs
+    .sendForm(
+      "service_0pk2plh",      // Service ID
+      "template_6s9fleo",     // Template ID
+      form.current,
+      "npU9ONnUBYwKYMzbr"        // Public Key
+    )
+    .then(
+      () => {
+        toast.success("✅ پیام شما ارسال شد!");
+        form.current.reset();
+      },
+      (error) => {
+        toast.error("❌ ارسال ناموفق بود، دوباره تلاش کنید.");
+        console.error(error.text);
+      }
+    );
+  }
+  
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 font-v">
       <div className="max-w-6xl w-full grid md:grid-cols-2 gap-10 bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -52,13 +80,13 @@ const Contact = () => {
             {t("contactp.desc1")}
           </p>
           
-          <form className="space-y-4">
+          <form ref={form} onSubmit={sendEmail} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <input type="text" placeholder="First name" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"/>
-              <input type="text" placeholder="Last name" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"/>
+              <input name="first_name" type="text" placeholder="First name" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"/>
+              <input name="last_name"  type="text" placeholder="Last name" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"/>
             </div>
-            <input type="email" placeholder="Email address" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"/>
-            <textarea rows="4" placeholder="Leave us message" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+            <input name="email" type="email" placeholder="Email address" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"/>
+            <textarea name="message" rows="4" placeholder="Leave us message" className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
             <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition">
               {t("contactp.sendmessage")}
             </button>
@@ -93,7 +121,7 @@ const Contact = () => {
               <div>
                 <p className="text-sm text-gray-500">{t("contactp.phone")}</p>
                 <p className="font-semibold text-gray-900">
-                  <CopyableText text="09352403786" />
+                  <CopyableText text="09020143786" />
                 </p>
               </div>
             </div>
