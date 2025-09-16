@@ -5,15 +5,16 @@ import picImg from "../assets/picimg.gif";
 import vidImg from "../assets/vidimg.gif";
 import fileimg from "../assets/fileimg.gif";
 import musimg from "../assets/musimg.gif";
-import dn from "../assets/daynight.gif";
 import { toast } from "react-toastify";
 import { uploadFile, listFiles, createSignedUrl, deleteFile, getCurrentUser, signOut,} from "../services/supabaseService";
 import { useTranslation } from "react-i18next";
 import bg from "../assets/bg-img.mp4"
+import bgdark from "../assets/bg-img-dark.mp4"
 import dayGif from "../assets/daynight1.png";
 import dayToNightGif from "../assets/day-night.gif";
 import nightGif from "../assets/daynight-night.gif";
 import nightToDayGif from "../assets/night-day.gif";
+import backg from "../assets/pexels-simon73-1323550.jpg";
 
 
 
@@ -53,10 +54,14 @@ const Dashboard = () => {
   const [files, setFiles] = useState([]);
   const [loadingFiles, setLoadingFiles] = useState(true);
   const { t, i18n } = useTranslation();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);  
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [dark, setDark] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [gif, setGif] = useState(dayGif);
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    return saved ? JSON.parse(saved) : false;
+  });
   const [selectedFiles, setSelectedFiles] = useState({
     picture: null,
     video: null,
@@ -76,6 +81,13 @@ const Dashboard = () => {
     video: false,
     file: false,
     music: false,
+  });
+
+  const [uploadProgress, setUploadProgress] = useState({
+    picture: 0,
+    video: 0,
+    file: 0,
+    music: 0,
   });
 
   useEffect(() => {
@@ -108,18 +120,33 @@ const Dashboard = () => {
   const handleUpload = async (type) => {
     if (!selectedFiles[type] || !user) return;
     setUploading(prev => ({ ...prev, [type]: true }));
+    const file = selectedFiles[type];
+  
+    // شروع نوار شبیه‌سازی
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 10; // سرعت تصادفی برای شبیه‌سازی
+      if (progress > 95) progress = 95; // قبل از تموم شدن آپلود متوقف می‌شه
+      setUploadProgress(prev => ({ ...prev, [type]: Math.round(progress) }));
+    }, 300);
+  
     try {
-      await uploadFile(user.email, selectedFiles[type]);
-      toast.success(`${t("toast.Fileuploadedsuccessfully")}`);
+      await uploadFile(user.email, file); // آپلود واقعی بدون تغییر
+      clearInterval(interval);
+      setUploadProgress(prev => ({ ...prev, [type]: 100 })); // آپلود تموم شد
+      setTimeout(() => setUploadProgress(prev => ({ ...prev, [type]: 0 })), 1500);
       setSelectedFiles(prev => ({ ...prev, [type]: null }));
       await loadFiles(user.email);
+      toast.success(`${t("toast.Fileuploadedsuccessfully")}`);
     } catch (err) {
-      console.error(err);
+      clearInterval(interval);
+      setUploadProgress(prev => ({ ...prev, [type]: 0 }));
       toast.error(`${t("toast.Erroruploadingfile")}`);
     } finally {
       setUploading(prev => ({ ...prev, [type]: false }));
     }
   };
+  
 
   const handleDelete = async (file) => {
     if (!user) return;
@@ -203,18 +230,62 @@ const Dashboard = () => {
   useEffect(() => {
     if (dark) {
       document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
     } else {
+      document.documentElement.classList.add("light");
       document.documentElement.classList.remove("dark");
     }
   }, [dark]);
 
 
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(dark));
+    if (dark) {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+    }
+  }, [dark]);
+  
+  
+
+
   return (
-    <div className={`min-h-screen w-full flex flex-col items-center py-8 px-4 sm:px-6 md:px-10 lg:px-16 ${i18n.language === "fa" ? "font-v" : "font-sans"} ${!videoLoaded ? "bg-black" : "text-white"}`}>
-      <video onLoadedData={() => setVideoLoaded(true)} autoPlay loop muted playsInline className="fixed top-0 left-0 w-full h-full object-cover -z-10">
-        <source src={bg} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <div className={`min-h-screen w-full flex flex-col items-center py-8 px-4 sm:px-6 md:px-10 lg:px-16 
+      ${i18n.language === "fa" ? "font-v" : "font-sans"} 
+      ${(dark && !videoLoaded) || (!dark && !imageLoaded) ? "bg-black" : ""}
+      ${dark ? "text-white" : "text-gray-900"}`}
+    >
+      {dark ? (
+        <video
+          key="dark"
+          onLoadedData={() => setVideoLoaded(true)}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={`fixed top-0 left-0 w-full h-full object-cover -z-10 transition-opacity duration-500 ${
+            videoLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <source src={bg} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <img
+          key="light"
+          src={backg}
+          alt="Background"
+          onLoad={() => setImageLoaded(true)}
+          className={`fixed top-0 left-0 w-full h-full object-cover -z-10 transition-opacity duration-500 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+
+
       <header className="flex flex-col sm:flex-row items-center justify-between w-full max-w-6xl mb-10 gap-2 sm:gap-4 flex-wrap">
         {/* سمت چپ */}
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
@@ -223,22 +294,28 @@ const Dashboard = () => {
         </div>
 
         {/* سمت راست */}
-        <div className="flex items-center gap-1 sm:gap-4 flex-wrap justify-end w-full sm:w-auto">
+        <div className="flex items-center gap-1 sm:gap-4 flex-wrap justify-end w-full sm:w-auto xs:flex-nowrap">
           <span className="text-xs sm:text-base break-all">{user?.email}</span>
 
           {/* Logout */}
           <button
             onClick={handleLogout}
-            className="w-20 h-9 sm:w-28 sm:h-11 flex items-center justify-center bg-red-600 hover:bg-red-700 rounded-lg text-xs sm:text-sm transition"
+            className={`px-4 py-2 rounded-lg text-sm sm:text-base transition 
+              ${dark 
+                ? "bg-red-600 hover:bg-red-700 text-white" 
+                : "bg-red-600 hover:bg-red-700 text-white"
+              }`}
           >
             {t("dashboard.Logout")}
           </button>
+
 
           {/* Language */}
           <div className="relative">
             <button
               onClick={() => setOpen(!open)}
-              className="w-20 h-9 sm:w-28 sm:h-11 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-xs sm:text-sm transition"
+              className="w-20 h-9 sm:w-28 sm:h-11 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-xs sm:text-sm transition text-white
+              "
             >
               {t("language")}
             </button>
@@ -249,7 +326,11 @@ const Dashboard = () => {
                     <button
                       key={lang.code}
                       onClick={() => { changeLanguage(lang.code); setOpen(false); }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-100 hover:bg-gray-800 transition"
+                      className={`px-3 py-2 rounded-lg text-sm transition
+                        ${dark 
+                          ? "bg-gray-700 hover:bg-gray-600 text-white" 
+                          : "bg-gray-700 hover:bg-gray-600 text-white"
+                        }`}
                     >
                       {lang.label}
                     </button>
@@ -304,22 +385,33 @@ const Dashboard = () => {
                   />
                 </div>
                 <div className="w-full sm:flex-1">
-                  <label className="flex items-center justify-between border border-gray-700 rounded-lg bg-gray-800/50 text-gray-200 px-3 py-2 text-sm backdrop-blur-sm cursor-pointer hover:bg-gray-700/50">
-                    {selectedFiles[section.key]
-                      ? selectedFiles[section.key].name
-                      : t("dashboard.choosefile")}
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e) =>
-                        setSelectedFiles((prev) => ({
-                          ...prev,
-                          [section.key]: e.target.files[0],
-                        }))
-                      }
-                    />
-                  </label>
+                  {uploadProgress[section.key] > 0 ? (
+                    <div className="w-full bg-gray-700 rounded-lg overflow-hidden h-8">
+                      <div
+                        className="bg-blue-600 h-8 text-xs text-center text-white transition-all duration-300"
+                        style={{ width: `${uploadProgress[section.key]}%` }}
+                      >
+                      </div>
+                    </div>
+                  ) : (
+                    <label className="flex items-center justify-between border border-gray-700 rounded-lg bg-gray-800/50 text-gray-200 px-3 py-2 text-sm backdrop-blur-sm cursor-pointer hover:bg-gray-700/50">
+                      {selectedFiles[section.key]
+                        ? selectedFiles[section.key].name
+                        : t("dashboard.choosefile")}
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={(e) =>
+                          setSelectedFiles((prev) => ({
+                            ...prev,
+                            [section.key]: e.target.files[0],
+                          }))
+                        }
+                      />
+                    </label>
+                  )}
                 </div>
+
 
                 <button
                   onClick={() => handleUpload(section.key)}
@@ -344,13 +436,21 @@ const Dashboard = () => {
                       <div className="flex flex-col sm:flex-row gap-2 w-full">
                         <button
                           onClick={() => downloadFile(file)}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg text-xs font-medium transition"
+                          className={`flex-1 px-3 py-2 rounded-lg text-xs font-medium transition 
+                            ${dark 
+                              ? "bg-blue-600 hover:bg-blue-700 text-white"
+                              : "bg-blue-600 hover:bg-blue-700 text-white"
+                            }`}
                         >
                           {t("dashboard.Download")}
                         </button>
                         <button
                           onClick={() => handleDelete(file)}
-                          className="flex-1 bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg text-xs font-medium transition"
+                          className={`flex-1 px-3 py-2 rounded-lg text-xs font-medium transition 
+                            ${dark 
+                              ? "bg-red-600 hover:bg-red-700 text-white"
+                              : "bg-red-600 hover:bg-red-700 text-white"
+                            }`}
                         >
                           {t("dashboard.Delete")}
                         </button>

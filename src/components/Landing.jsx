@@ -1,7 +1,7 @@
 import img1 from "../assets/laptop.png";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Landing = ({ onChange }) => {
@@ -67,8 +67,8 @@ const Landing = ({ onChange }) => {
               </div>
             )}
           </div>
-          <a href="#">{t("about")}</a>
-          <a href="#">{t("contact")}</a>
+          <Link to="/Landing/about">{t("about")}</Link>
+          <Link to="/Landing/contact">{t("contact")}</Link>
         </nav>
 
       </div>

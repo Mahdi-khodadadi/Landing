@@ -4,9 +4,10 @@ import Landing from './components/Landing';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { ToastContainer } from 'react-toastify';
-import axios from 'axios';
 import AuthCallback from './components/AuthCallback';
-
+import About from "./components/About";
+import Contact from "./components/Contact";
+ 
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,8 @@ function App() {
         <Route path="/" element={<Navigate to="/Landing" />} />
         <Route path="/Landing" element={<Landing />} />
         <Route path="/Landing/login" element={<Login />} />
+        <Route path="/Landing/about" element={<About />} />
+        <Route path="/Landing/contact" element={<Contact />} />
         <Route path="/Landing/dashboard" element={<Dashboard />} />
         <Route path="/Landing/auth/v1/callback" element={<AuthCallback />} />
       </Routes>

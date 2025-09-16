@@ -47,6 +47,22 @@
       "Registrationwassuccessful" : "Registration was successful ✅",
       "Welcome" : "Welcome 👋",
       "Errorinlogin": "Error in login ❌"
+    },
+    "aboutp": {
+      "aboutus": "About Us",
+      "aboutmyClud": "About MyClud",
+      "desc1": "MyClud is a cloud storage platform that allows you to easily upload and manage your photos, videos, music, and files.",
+      "desc2": "You can sign up securely and log in on any device with your email and password to access and download your files.",
+      "desc3": "We strive to provide a fast, secure, and convenient experience for storing and accessing your files.",
+      "exit" : "Exit"
+    },
+    "contactp" : {
+      "getintouch" : "Get in Touch",
+      "letschat" : "Let's Chat, Reach Out to Us",
+      "desc1" : "Have questions or feedback? We're here to help. Send us a message, and we'll respond within 24 hours",
+      "sendmessage" : "Send Message",
+      "email" : "Email",
+      "phone" : "Phone"
     }
   }
   

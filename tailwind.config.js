@@ -8,6 +8,9 @@ module.exports = {
       "v" : "Vazir"
     },
     extend: {
+      screens: {
+        'xs': {'max': '395px'},
+      },
     },
   },
   plugins: [
