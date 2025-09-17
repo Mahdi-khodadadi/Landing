@@ -18,7 +18,6 @@ function App() {
         <Route path="/Landing/about" element={<About />} />
         <Route path="/Landing/contact" element={<Contact />} />
         <Route path="/Landing/dashboard" element={<Dashboard />} />
-        <Route path="/Landing/auth/v1/callback" element={<AuthCallback />} />
       </Routes>
 
       <ToastContainer position="top-right" />

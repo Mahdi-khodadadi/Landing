@@ -5,8 +5,10 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { FcGoogle } from "react-icons/fc";
 import { supabase } from "../supabaseClient";
+import useAuthListener from "./useAuthListener";
 
 const Login = () => {
+  useAuthListener();
   const [isSignup, setIsSignup] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -76,7 +78,7 @@ const Login = () => {
   const handleGoogleAuth = async () => {
     const { data , error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: 'https://mahdi-khodadadi.github.io/Landing/auth/v1/callback' }
+      options: { redirectTo: 'https://mahdi-khodadadi.github.io/' }
     });
     
     if (error) {
@@ -84,6 +86,36 @@ const Login = () => {
       return
     }
   }
+
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        // گرفتن session فعلی از Supabase
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error) {
+          console.error("Error fetching session:", error.message);
+          return;
+        }
+
+        if (session?.user) {
+          // اگر session وجود داشت → ذخیره در localStorage
+          localStorage.setItem("user", JSON.stringify({
+            id: session.user.id,
+            email: session.user.email
+          }));
+
+          // هدایت مستقیم به داشبورد
+          navigate("/Landing/dashboard");
+        }
+      } catch (err) {
+        console.error("Unexpected error while checking session:", err);
+      }
+    };
+
+    checkSession();
+  }, [navigate]);
 
   return (
     <div className={`min-h-screen flex items-center justify-center bg-[#f8f8f8] p-4 ${i18n.language === "fa" ? "font-v" : "font-sans"}`}>
