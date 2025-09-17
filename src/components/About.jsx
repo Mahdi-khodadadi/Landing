@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import img from "../assets/abr-icon.png";
 import { useTranslation } from "react-i18next";
 
+
+
+
 const About = () => {
   const { t } = useTranslation();
 
@@ -12,8 +15,6 @@ const About = () => {
             {t("aboutp.exit")}
           </Link>
         <div className="p-8 flex flex-col justify-center relative">
-          
-
           <p className="text-blue-600 font-semibold">{t("aboutp.aboutus")}</p>
           <h2 className="text-3xl font-bold mt-2 mb-4 text-gray-900">
             {t("aboutp.aboutmyClud")}
@@ -28,13 +29,11 @@ const About = () => {
             {t("aboutp.desc3")}
           </p>
         </div>
-
         <div className="bg-gray-900 flex flex-col justify-center items-center p-8">
           <div className="relative w-full">
             <img src={img} alt="About MyClud" className="rounded-xl mx-auto" />
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -8,28 +8,31 @@ const AuthCallback = () => {
   useEffect(() => {
     const handleAuth = async () => {
       try {
+        // گرفتن session از Supabase
         const { data: { session }, error } = await supabase.auth.getSession();
 
         if (error) {
           console.error("Auth error:", error.message);
+          navigate("/Landing/login");
           return;
         }
 
         if (session?.user) {
-          // ذخیره کاربر در localStorage
+          // ذخیره اطلاعات کاربر در localStorage
           localStorage.setItem("user", JSON.stringify({
             id: session.user.id,
             email: session.user.email
           }));
 
-          // هدایت به داشبورد بعد از ورود موفق
+          // هدایت به داشبورد
           navigate("/Landing/dashboard");
         } else {
-          // اگر session نبود، بفرستش صفحه login
+          // اگر session نبود → صفحه login
           navigate("/Landing/login");
         }
       } catch (err) {
         console.error("Unexpected error:", err);
+        navigate("/Landing/login");
       }
     };
 

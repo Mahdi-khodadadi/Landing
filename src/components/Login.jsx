@@ -76,7 +76,7 @@ const Login = () => {
   const handleGoogleAuth = async () => {
     const { data , error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: '/Landing/dashboard' }
+      options: { redirectTo: 'https://mahdi-khodadadi.github.io/Landing/auth/v1/callback' }
     });
     
     if (error) {
