@@ -4,7 +4,6 @@ import Landing from './components/Landing';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { ToastContainer } from 'react-toastify';
-import AuthCallback from './components/AuthCallback';
 import About from "./components/About";
 import Contact from "./components/Contact";
  
