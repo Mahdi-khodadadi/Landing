@@ -78,7 +78,7 @@ const Login = () => {
   const handleGoogleAuth = async () => {
     const { data , error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: 'https://mahdi-khodadadi.github.io/Landing' }
+      options: { redirectTo: 'https://mahdi-khodadadi.github.io/Landing/dashboard' }
     });
     
     if (error) {
