@@ -76,16 +76,14 @@ const Login = () => {
   };
 
   const handleGoogleAuth = async () => {
-    const { data , error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: 'https://mahdi-khodadadi.github.io/Landing/dashboard' }
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin + "/Landing/login/callback",
+      },
     });
-    
-    if (error) {
-      toast.error(error.message);
-      return
-    }
-  }
+    if (error) console.error(error);
+  };
 
 
   useEffect(() => {

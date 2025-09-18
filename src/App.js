@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import { ToastContainer } from 'react-toastify';
 import About from "./components/About";
 import Contact from "./components/Contact";
+import LoginCallback from './components/LoginCallback';
  
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Navigate to="/Landing" />} />
         <Route path="/Landing" element={<Landing />} />
         <Route path="/Landing/login" element={<Login />} />
+        <Route path="/Landing/login/callback" element={<LoginCallback />} />
         <Route path="/Landing/about" element={<About />} />
         <Route path="/Landing/contact" element={<Contact />} />
         <Route path="/Landing/dashboard" element={<Dashboard />} />
